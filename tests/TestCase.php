@@ -26,7 +26,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function mockApplication($config = [], $appClass = Application::class)
     {
-        new $appClass(ArrayHelper::merge([
+        \Yii::$app = new $appClass(ArrayHelper::merge([
             'id' => 'testapp',
             'basePath' => __DIR__,
             'vendorPath' => dirname(__DIR__) . '/vendor',
@@ -35,7 +35,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function mockWebApplication($config = [], $appClass = \yii\web\Application::class)
     {
-        new $appClass(ArrayHelper::merge([
+        \Yii::$app = new $appClass(ArrayHelper::merge([
             'id' => 'testapp',
             'basePath' => __DIR__,
             'vendorPath' => dirname(__DIR__) . '/vendor',
