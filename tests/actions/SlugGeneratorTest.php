@@ -82,6 +82,31 @@ class SlugGeneratorTest extends TestCase
         $this->assertEquals('', $response->data['slug']);
     }
 
+    public function testGenearteSlugCustomFieldName()
+    {
+        $fieldName = 'title';
+        $text = 'Żółć';
+        $slugs = [];
+        $this->mockWebApplication();
+        \Yii::$app->set('response', $this->mockResponse());
+
+        $controller = new Controller('id', \Yii::$app);
+        $action = new SlugGenerator(
+            'test',
+            $controller,
+            [
+                'postFieldName' => $fieldName,
+                'request' => $this->mockRequest($text, $fieldName),
+                'findSlugsCallback' => function () use ($slugs) {
+                    return $slugs;
+                }
+            ]
+        );
+
+        $response = $action->run();
+        $this->assertEquals('zolc', $response->data['slug']);
+    }
+
     public function testThrowExceptionIfCallbackNotReturnArray()
     {
         $text = 'Żółć';
@@ -104,12 +129,15 @@ class SlugGeneratorTest extends TestCase
         $action->run();
     }
 
-    protected function mockRequest(string $text): Request
+    protected function mockRequest(string $text, string $fieldName = 'text'): Request
     {
         $request = $this->getMockBuilder(Request::class)
             ->onlyMethods(['post'])
             ->getMock();
-        $request->method('post')->willReturn($text);
+        $request->expects($this->once())
+            ->method('post')
+            ->with($fieldName)
+            ->willReturn($text);
 
         /** @var Request $request */
         return $request;

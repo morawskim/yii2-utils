@@ -132,12 +132,47 @@ class Select2AutocompleteTest extends TestCase
         $this->assertEquals($expectedArray, $response->data['results']);
     }
 
-    protected function mockRequest(string $term): Request
+    public function testRunSelect2AttributesCustomRequestFieldName(): void
+    {
+        $term = 'asd';
+        $fieldName = 'title';
+        $entries = [['id' => 1, 'label' => 'asd1'], ['id' => 2, 'label' => 'asd2']];
+
+        $controller = new Controller('id', \Yii::$app);
+        $action = new Select2Autocomplete(
+            'test',
+            $controller,
+            [
+                'requestFieldName' => $fieldName,
+                'request' => $this->mockRequest($term, $fieldName),
+                'response' => $this->mockResponse(),
+                'entriesCallback' => function () use ($entries) {
+                    return $entries;
+                }
+            ]
+        );
+
+        $response = $action->run();
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertIsArray($response->data);
+        $this->assertArrayHasKey('results', $response->data);
+
+        $expectedArray = [
+            ['id' => 1, 'text' => 'asd1'],
+            ['id' => 2, 'text' => 'asd2']
+        ];
+        $this->assertEquals($expectedArray, $response->data['results']);
+    }
+
+    protected function mockRequest(string $term, string $fieldName = 'term'): Request
     {
         $request = $this->getMockBuilder(Request::class)
             ->onlyMethods(['get'])
             ->getMock();
-        $request->method('get')->willReturn($term);
+        $request->expects($this->once())
+            ->method('get')
+            ->with($fieldName)
+            ->willReturn($term);
 
         /** @var Request $request */
         return $request;
