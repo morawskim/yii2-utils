@@ -8,6 +8,9 @@ use yii\web\Controller;
 use yii\web\Request;
 use yii\web\Response;
 
+/**
+ * @requires extension intl
+ */
 class SlugGeneratorTest extends TestCase
 {
     public function testGenearteSlug()

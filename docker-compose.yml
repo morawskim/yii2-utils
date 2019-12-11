@@ -1,0 +1,12 @@
+version: '3.4'
+services:
+  php:
+    build: .
+    volumes:
+      - ./:/app
+    user: ${MY_UID:-1000}
+    tty: true
+    working_dir: /app
+    environment:
+      - XDEBUG_CONFIG=remote_connect_back=0 remote_host=${MY_IP:-172.17.0.1} remote_enable=1
+      - PHP_IDE_CONFIG=serverName=${SERVER_NAME}
