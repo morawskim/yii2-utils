@@ -3,6 +3,7 @@
 namespace mmo\yii2\tests\helpers;
 
 use mmo\yii2\helpers\UrlHelper;
+use yii\base\InvalidArgumentException;
 use yii\web\Controller;
 use yii\base\Action;
 use yii\base\Module;
@@ -90,5 +91,13 @@ class UrlHelperTest extends \mmo\yii2\tests\TestCase
             'route_array_absolute' => [['/'], true, 'http://example.com/base/index.php?r=&signature=7799e5280899b005346ac8d10289277cd3ffd840eb508b292b55d7576a0dec4b'],
             'route_with_absolute' => [['/page/view', 'id' => 10], true, 'http://example.com/base/index.php?r=page%2Fview&id=10&signature=e9713812901ad8c182e56d33ef94496aad8d444913ef7c07c47ff4419e08fff4'],
         ];
+    }
+
+    public function testWithSignedParameter(): void
+    {
+        $key = 'secretkey';
+        $this->mockAction('page', 'view', null, ['id' => 10]);
+        $this->expectException(InvalidArgumentException::class);
+        $url = UrlHelper::toRouteSigned(['page/view', 'signature' => 'foo'], $key, false);
     }
 }

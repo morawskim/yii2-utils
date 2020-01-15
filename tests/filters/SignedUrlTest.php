@@ -4,6 +4,7 @@ namespace mmo\yii2\tests\filters;
 
 use mmo\yii2\filters\SignedUrl;
 use yii\base\Action;
+use yii\base\InvalidConfigException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
@@ -66,6 +67,14 @@ class SignedUrlTest extends \mmo\yii2\tests\TestCase
         ]);
         $this->expectException(NotFoundHttpException::class);
         $filter->beforeAction($action);
+    }
+
+    public function testInitWithoutKey(): void
+    {
+        $this->expectException(InvalidConfigException::class);
+        new SignedUrl([
+            'absolute' => false,
+        ]);
     }
 
     protected function mockRequest($url, $signature, $absolute = false): Request
