@@ -1,9 +1,12 @@
 language: php
 
+dist: bionic
+
 php:
   - 7.2
   - 7.3
-  - "7.4snapshot"
+  - 7.4
+  - nightly
 
 env:
   global:
@@ -21,7 +24,7 @@ cache:
 matrix:
   fast_finish: true
   allow_failures:
-    - php: '7.4snapshot'
+    - php: 'nightly'
 
 install:
   - travis_retry composer update $DEFAULT_COMPOSER_FLAGS $PREFER_LOWEST
