@@ -45,15 +45,17 @@ class SignedUrl extends ActionFilter
     public function beforeAction($action): bool
     {
         if ($this->checkSignature()) {
+            \Yii::debug('Url signature is correct', __METHOD__);
             return true;
         }
-
+        \Yii::debug('Url signature is invalid', __METHOD__);
         throw new NotFoundHttpException($this->errorMessage);
     }
 
     protected function checkSignature(): bool
     {
         $url = $this->absolute ? $this->request->getAbsoluteUrl() : $this->request->getUrl();
+        \Yii::debug(sprintf('Check url (%s) signature', $url), __METHOD__);
         $urlParts = parse_url($url);
         $queryParams = [];
         parse_str($urlParts['query'] ?? '', $queryParams);
