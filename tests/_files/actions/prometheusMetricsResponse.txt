@@ -1,0 +1,3 @@
+# HELP test_some_counter it increases
+# TYPE test_some_counter counter
+test_some_counter{type="blue"} 3
