@@ -29,3 +29,49 @@ public function actions()
 }
 ```
 Now if you call for example `curl -XPOST -H'Content-Type: application/json'  -d'{"foo": "bar"}' -v 'http://<server>/index.php?r=<controller/js>'` the body parameters will be logged to file `app.log` with category set to `application.js`.
+
+## Action PrometheusMetrics
+
+This action render metrics for scraping by prometheus.
+You should define service `\Prometheus\CollectorRegistry` in container.
+```php
+/** @var $container \yii\di\Container */
+$container->setSingleton(\Prometheus\CollectorRegistry::class, function ($container, $params, $config) {
+    return new \Prometheus\CollectorRegistry(new \Prometheus\Storage\Redis([
+        'host' => '127.0.0.1',
+        'port' => 6379,
+        'timeout' => 0.3,
+        'read_timeout' => 5,
+        'persistent_connections' => false,
+        'password' => null,
+    ]));
+}); 
+``` 
+You can define container service in configuration file.
+```php
+return [
+    'container' => [
+        'singletons' => [
+            \Prometheus\CollectorRegistry::class => function ($container, $params, $config) {
+                //definition
+            },
+        ]
+    ],
+    // ...
+];
+```
+You need method `actions` in controller class.
+```php
+/**
+ * {@inheritdoc}
+ */
+public function actions()
+{
+    return [
+        'metrics' => [
+            'class' => \mmo\yii2\actions\PrometheusMetrics::class,
+            'collectorRegistry' => Yii::$container->get(\Prometheus\CollectorRegistry::class)
+        ]
+    ];
+}
+```
