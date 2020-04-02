@@ -102,7 +102,7 @@ class PrometheusBehavior extends Behavior
             'It observes response time.',
             [
                 'method',
-                'url',
+                'path',
                 'status_code',
             ]
         );
@@ -112,7 +112,7 @@ class PrometheusBehavior extends Behavior
             microtime(true) - $this->start,
             [
                 $this->getRequest()->method,
-                $this->getRequest()->url,
+                $this->getRequest()->pathInfo,
                 $this->getResponse()->getStatusCode(),
             ]
         );

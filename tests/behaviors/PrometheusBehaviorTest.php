@@ -74,7 +74,7 @@ class PrometheusBehaviorTest extends \mmo\yii2\tests\TestCase
         $this->assertFalse(\Yii::$app->getResponse()->hasEventHandlers(Response::EVENT_BEFORE_SEND));
     }
 
-    public function testAbc(): void
+    public function testTriggers(): void
     {
         $collectorRegistry = new CollectorRegistry(new InMemory());
         $namespace = 'example';
@@ -85,12 +85,16 @@ class PrometheusBehaviorTest extends \mmo\yii2\tests\TestCase
 
         $this->assertCount(0, $collectorRegistry->getMetricFamilySamples());
 
-        $this->mockWebApplication(['components' => ['request' => ['url' => '/example-page']]]);
+        $this->mockWebApplication(['components' => ['request' => ['url' => '/example-page?foo=bar']]]);
         $behavior->attach(\Yii::$app);
         \Yii::$app->trigger(Application::EVENT_BEFORE_REQUEST, new Event());
         \Yii::$app->getResponse()->trigger(Response::EVENT_BEFORE_SEND, new Event());
 
         $collectorRegistry->getHistogram($namespace, 'response_time_seconds');
         $this->assertCount(1, $collectorRegistry->getMetricFamilySamples());
+
+        $string = implode('', $collectorRegistry->getMetricFamilySamples()[0]->getSamples()[0]->getLabelValues());
+        $this->assertStringNotContainsString('foo', $string);
+
     }
 }
