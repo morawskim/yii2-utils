@@ -20,7 +20,8 @@
         "phpunit/phpunit": "^8.3"
     },
     "suggest": {
-        "ext-intl": "Needed to generate slug by SlugGenerator's action"
+        "ext-intl": "Needed to generate slug by SlugGenerator's action",
+        "ext-mbstring": "Needed to mask string by Scramble class"
     },
     "autoload": {
         "psr-4": {
