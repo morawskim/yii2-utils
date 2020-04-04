@@ -92,6 +92,11 @@ class PrometheusBehavior extends Behavior
     public function beforeAction(Event $event): void
     {
         $this->start = microtime(true);
+        $this->collectorRegistry->getOrRegisterCounter(
+            $this->namespace,
+            'requests_total',
+            'Counter of request'
+        )->inc();
     }
 
     public function afterAction(Event $event): void

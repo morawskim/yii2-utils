@@ -91,10 +91,9 @@ class PrometheusBehaviorTest extends \mmo\yii2\tests\TestCase
         \Yii::$app->getResponse()->trigger(Response::EVENT_BEFORE_SEND, new Event());
 
         $collectorRegistry->getHistogram($namespace, 'response_time_seconds');
-        $this->assertCount(1, $collectorRegistry->getMetricFamilySamples());
+        $this->assertCount(2, $collectorRegistry->getMetricFamilySamples());
 
         $string = implode('', $collectorRegistry->getMetricFamilySamples()[0]->getSamples()[0]->getLabelValues());
         $this->assertStringNotContainsString('foo', $string);
-
     }
 }
