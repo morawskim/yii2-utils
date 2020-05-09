@@ -1,0 +1,30 @@
+{
+  "details": {
+    "0. Callback": {
+      "result": "success",
+      "message": "Success",
+      "data": null
+    },
+    "1. Callback": {
+      "result": "failure",
+      "message": "Failure",
+      "data": null
+    },
+    "2. Callback": {
+      "result": "skip",
+      "message": "Skip",
+      "data": null
+    },
+    "3. Callback": {
+      "result": "warning",
+      "message": "Warning",
+      "data": null
+    }
+  },
+  "success": 1,
+  "warning": 1,
+  "failure": 1,
+  "skip": 1,
+  "unknown": 0,
+  "passed": false
+}

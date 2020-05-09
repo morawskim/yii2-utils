@@ -75,3 +75,26 @@ public function actions()
     ];
 }
 ```
+
+## Action LaminasDiagnostics
+
+[Library laminas-diagnostics provides diagnostic tests for real-world PHP applications.](https://docs.laminas.dev/laminas-diagnostics/)
+This action display diagnostic report in JSON format.
+To use this action you need install package `laminas/laminas-diagnostics` - `composer require laminas/laminas-diagnostics:^1.6`
+You should configure `\Laminas\Diagnostics\Runner\Runner` and pass this object to action in `runner` property.
+[Here](https://www.yiiframework.com/doc/guide/2.0/en/concept-di-container) you can read about DI in YII2 
+and [here](https://www.yiiframework.com/doc/guide/2.0/en/concept-configurations#application-configurations)
+about configuration DI in config file.
+
+You need method `actions` in controller class.
+```php
+public function actions()
+{
+    return [
+        'diagnostic' => [
+            'class' => \mmo\yii2\actions\LaminasDiagnostics::class,
+            'runner' => \Yii::$container->get(YourConfiguredRunnerWithAllChecks::class),
+        ]
+    ];
+}
+```

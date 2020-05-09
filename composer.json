@@ -17,11 +17,13 @@
         "yiisoft/yii2": "~2.0.14"
     },
     "require-dev": {
+        "laminas/laminas-diagnostics": "^1.6",
         "phpunit/phpunit": "^8.3"
     },
     "suggest": {
         "ext-intl": "Needed to generate slug by SlugGenerator's action",
-        "ext-mbstring": "Needed to mask string by Scramble class"
+        "ext-mbstring": "Needed to mask string by Scramble class",
+        "laminas/laminas-diagnostics": "Needed to use LaminasDiagnostics action"
     },
     "autoload": {
         "psr-4": {
