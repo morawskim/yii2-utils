@@ -10,6 +10,12 @@ use yii\web\Request;
 
 class IpRequestTest extends \mmo\yii2\tests\TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->mockWebApplication();
+    }
+
     /**
      * @dataProvider dataProviderAllowed
      * @param array $allowedIPs

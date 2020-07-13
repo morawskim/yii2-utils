@@ -10,6 +10,12 @@ use yii\web\Response;
 
 class Select2AutocompleteTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->mockWebApplication();
+    }
+
     public function testRunDefaultSelect2Attributes(): void
     {
         $term = 'asd';
