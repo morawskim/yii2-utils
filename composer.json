@@ -12,7 +12,6 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=7.2",
-        "endclothing/prometheus_client_php": "^1.0",
         "guzzlehttp/psr7": "^1.6",
         "yiisoft/yii2": "~2.0.14"
     },
@@ -23,7 +22,8 @@
     "suggest": {
         "ext-intl": "Needed to generate slug by SlugGenerator's action",
         "ext-mbstring": "Needed to mask string by Scramble class",
-        "laminas/laminas-diagnostics": "Needed to use LaminasDiagnostics action"
+        "laminas/laminas-diagnostics": "Needed to use LaminasDiagnostics action",
+        "endclothing/prometheus_client_php": "Needed to integration with Prometheus"
     },
     "autoload": {
         "psr-4": {
@@ -40,5 +40,10 @@
             "type": "composer",
             "url": "https://asset-packagist.org"
         }
-    ]
+    ],
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true
+        }
+    }
 }
