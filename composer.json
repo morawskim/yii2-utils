@@ -17,7 +17,8 @@
     },
     "require-dev": {
         "laminas/laminas-diagnostics": "^1.6",
-        "phpunit/phpunit": "^8.3"
+        "phpunit/phpunit": "^8.3",
+        "endclothing/prometheus_client_php": "^1.0"
     },
     "suggest": {
         "ext-intl": "Needed to generate slug by SlugGenerator's action",
