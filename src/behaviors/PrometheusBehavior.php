@@ -107,17 +107,23 @@ class PrometheusBehavior extends Behavior
             'It observes response time.',
             [
                 'method',
-                'path',
+                'actionUniqueId',
                 'status_code',
             ]
         );
+
+        if ($this->owner instanceof Application) {
+            $actionUniqueId = $this->owner->requestedAction->uniqueId;
+        } else {
+            $actionUniqueId = 'unknow';
+        }
 
         /** @var  Histogram $histogram */
         $histogram->observe(
             microtime(true) - $this->start,
             [
                 $this->getRequest()->method,
-                $this->getRequest()->pathInfo,
+                $actionUniqueId,
                 $this->getResponse()->getStatusCode(),
             ]
         );
